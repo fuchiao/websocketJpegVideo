@@ -1,0 +1,40 @@
+<html>
+	<body>
+	<canvas id="myCanvas" width="1920" height="1080" style="border:1px solid #d3d3d3;">
+	    Your browser does not support the HTML5 canvas tag.
+	</canvas>
+		<script type="text/javascript">
+			var ws = new WebSocket("ws://172.17.10.172:9999", "chat");
+			var img = new Image();
+			ws.onopen = function() {
+				console.log('open');
+			};
+			ws.onmessage = function (evt) {
+				console.log(evt.data);
+				img.src = window.URL.createObjectURL(evt.data); 
+			};
+			ws.onclose = function() {
+				console.log('close');
+			};
+var can = document.getElementById('myCanvas');
+var ctx = can.getContext('2d');
+img.onload = function (e) {
+    console.log("jpg Loaded");
+    ctx.drawImage(img, 0, 0);
+    window.URL.revokeObjectURL(img.src);    
+    img = null;  
+};
+img.onerror = img.onabort = function () {         
+    img = null;
+};
+window.onload = function() {
+    function updateImage() {
+	console.log("jpg Loaded");
+	window.URL.revokeObjectURL(img.src);    
+	img = null;  
+    }
+    setInterval(updateImage, 1000);
+}
+		</script>
+	</body>
+</html>
