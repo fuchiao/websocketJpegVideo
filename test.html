@@ -9,6 +9,7 @@
 			};
 			ws.onmessage = function (evt) {
 				console.log(evt.data);
+				URL.revokeObjectURL($("#image").attr("src"));
 				$("#image").attr('src', URL.createObjectURL(evt.data));
 			};
 			ws.onclose = function() {
