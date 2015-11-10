@@ -9,8 +9,13 @@
 			};
 			ws.onmessage = function (evt) {
 				console.log(evt.data);
-				URL.revokeObjectURL($("#image").attr("src"));
-				$("#image").attr('src', URL.createObjectURL(evt.data));
+				//URL.revokeObjectURL($("#image").attr("src"));
+				//$("#image").attr('src', URL.createObjectURL(evt.data));
+				var fr = new FileReader();
+				fr.onload = function () {
+				      image.src = fr.result;
+				};
+				fr.readAsDataURL(evt.data);
 			};
 			ws.onclose = function() {
 				console.log('close');
